@@ -5,7 +5,7 @@
     if (window.nfx) return; // Already injected
 
     const script = document.createElement('script');
-    script.src = chrome.runtime.getURL('nfx-provider.js');
+    script.src = chrome.runtime.getURL('src/nfx-provider.js');
     script.onload = () => script.remove();
     (document.head || document.documentElement).appendChild(script);
 })();

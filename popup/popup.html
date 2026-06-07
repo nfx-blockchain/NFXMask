@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>NFX Mask</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div id="root">
+        <div id="welcome-screen" class="screen">
+            <div class="welcome card">
+                <h1>👋 Welcome to NFX Mask</h1>
+                <p>Secure Web3 Wallet for NFX Blockchain</p>
+                <button class="btn-primary" id="create-btn">Create New Wallet</button>
+                <button class="btn-secondary" id="import-btn" style="width:100%;margin-top:8px">Import Wallet</button>
+            </div>
+        </div>
+        
+        <div id="unlock-screen" class="screen hidden">
+            <div class="welcome card">
+                <h1>🔓 Unlock Wallet</h1>
+                <input type="password" id="unlock-pass" placeholder="Enter passphrase" style="width:100%;padding:10px;border-radius:6px;border:none;margin:8px 0">
+                <button class="btn-primary" id="unlock-btn">Unlock</button>
+            </div>
+        </div>
+        
+        <div id="import-screen" class="screen hidden">
+            <div class="welcome card">
+                <h1>📥 Import Wallet</h1>
+                <textarea id="import-mnemonic" placeholder="Enter 12-word mnemonic" style="width:100%;padding:10px;border-radius:6px;border:none;margin:8px 0;height:80px"></textarea>
+                <input type="password" id="import-pass" placeholder="Set passphrase" style="width:100%;padding:10px;border-radius:6px;border:none;margin:8px 0">
+                <button class="btn-primary" id="import-confirm-btn">Import</button>
+            </div>
+        </div>
+        
+        <div id="mnemonic-screen" class="screen hidden">
+            <div class="welcome card">
+                <h1>🔐 Backup Phrase</h1>
+                <p>Write down these 12 words:</p>
+                <div class="mnemonic-box" id="mnemonic-display"></div>
+                <input type="password" id="passphrase" placeholder="Set passphrase" style="width:100%;padding:10px;border-radius:6px;border:none;margin:8px 0">
+                <button class="btn-primary" id="confirm-btn">I've Saved It</button>
+            </div>
+        </div>
+        
+        <div id="main-screen" class="screen hidden">
+            <div class="tabs" style="display:flex;margin-bottom:12px">
+                <button class="tab-btn active" data-tab="wallet">💰 Wallet</button>
+                <button class="tab-btn" data-tab="send">📤 Send</button>
+                <button class="tab-btn" data-tab="receive">📥 Receive</button>
+                <button class="tab-btn" data-tab="settings">⚙️ Settings</button>
+            </div>
+            
+            <div id="wallet-tab">
+                <div class="card balance">
+                    <div style="font-size:12px;color:#888">Address: 
+                        <span id="address-formatted" style="font-family:monospace"></span>
+                    </div>
+                    <div style="font-size:24px;font-weight:bold;color:#00d9ff">💰 <span id="balance">0.00</span> NFX</div>
+                </div>
+                
+                <div class="section">
+                    <h4>🪙 Tokens</h4>
+                    <div class="token">NFX: 100.00</div>
+                    <div class="token">USDT: 50.00</div>
+                </div>
+                
+                <div class="section">
+                    <h4>🖼️ NFTs</h4>
+                    <div class="nft">Island #1 (ID: 1)</div>
+                </div>
+            </div>
+            
+            <div id="send-tab" class="hidden">
+                <div class="card">
+                    <input type="text" id="send-address" placeholder="To address" style="width:100%;padding:10px;border-radius:6px;border:none;margin:4px 0">
+                    <input type="number" id="send-amount" placeholder="Amount" step="0.01" style="width:100%;padding:10px;border-radius:6px;border:none;margin:4px 0">
+                    <button class="btn-primary" id="send-btn">Send</button>
+                </div>
+            </div>
+            
+            <div id="receive-tab" class="hidden">
+                <div class="card" style="text-align:center">
+                    <canvas id="qr-code" width="120" height="120" style="margin:10px auto;border-radius:8px"></canvas>
+                    <div style="font-family:monospace;font-size:12px;word-break:break-all;margin:8px 0" id="full-address"></div>
+                    <button class="btn-primary" id="copy-address" style="width:auto;padding:8px 16px">📋 Copy Address</button>
+                </div>
+            </div>
+            
+            <div id="settings-tab" class="hidden">
+                <div class="card">
+                    <h4>🔗 RPC Endpoint</h4>
+                    <input type="text" id="rpc-endpoint" placeholder="http://localhost:27444" style="width:100%;padding:8px;border-radius:6px;border:none;margin:4px 0">
+                    
+                    <h4 style="margin-top:12px">🔐 Security</h4>
+                    <button class="btn-secondary" id="lock-wallet" style="width:100%;margin:4px 0">🔒 Lock Wallet</button>
+                    <button class="btn-secondary" id="change-pass" style="width:100%;margin:4px 0">🔑 Change Passphrase</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>

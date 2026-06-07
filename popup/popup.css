@@ -1,0 +1,22 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 320px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: #eee; padding: 16px; }
+#root { max-width: 100%; }
+.welcome { text-align: center; padding: 20px 0; }
+.welcome h1 { color: #00d9ff; font-size: 24px; margin-bottom: 8px; }
+.welcome p { color: #888; font-size: 14px; margin-bottom: 20px; }
+.btn-primary { width: 100%; padding: 12px; background: #00d9ff; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; }
+.btn-primary:hover { background: #00b8d9; }
+.card { background: #16213e; border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+.mnemonic-box { background: #0f3460; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 13px; word-break: break-all; margin: 12px 0; }
+.btn-secondary { padding: 10px 20px; background: #00d9ff; color: #000; border: none; border-radius: 6px; cursor: pointer; margin: 4px; }
+.balance { margin-bottom: 16px; }
+.balance div { margin: 8px 0; font-size: 14px; }
+.section { margin-top: 12px; }
+.section h4 { color: #00d9ff; margin-bottom: 8px; font-size: 14px; }
+.token, .nft, .island { background: #0f3460; padding: 8px; border-radius: 6px; margin: 4px 0; font-size: 13px; }
+.hidden { display: none !important; }
+#root { position: relative; }
+.tab-btn { flex: 1; padding: 10px; background: #0f3460; color: #888; border: none; cursor: pointer; }
+.tab-btn.active { background: #00d9ff; color: #000; font-weight: bold; }
+.tab-btn:first-child { border-radius: 6px 0 0 6px; }
+.tab-btn:last-child { border-radius: 0 6px 6px 0; }

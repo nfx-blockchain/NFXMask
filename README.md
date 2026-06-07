@@ -1,6 +1,6 @@
-# NFX Browser Wallet
+# NFXMask
 
-Extensão de navegador estilo MetaMask para NFXBlockchain.
+Browser wallet estilo MetaMask para NFXBlockchain.
 
 ## Features
 - Wallet HD (mnemonic)
@@ -12,15 +12,24 @@ Extensão de navegador estilo MetaMask para NFXBlockchain.
 
 ## Install (Chrome/Brave/Edge)
 
-1. `cd browser-extension`
+1. `cd NFXMask`
 2. Load unpacked em `chrome://extensions`
-3. Select pasta `browser-extension/`
+3. Select pasta `NFXMask/`
 
-## Structure
-```
-browser-extension/
-├── manifest.json
-├── popup/           # UI popup
-├── background/      # Background script
-└── src/
+## Usage
+
+Clique no ícone NFXMask para:
+- Conectar wallet
+- Ver balance NFX
+- Listar tokens/NFTs/islands
+
+## RPC Configuration
+
+Configure em `.nfxrc.json`:
+```json
+{
+  "rpc": "http://192.168.131.9:27444",
+  "user": "test",
+  "password": "test123"
+}
 ```
