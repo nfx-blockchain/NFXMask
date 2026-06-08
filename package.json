@@ -3,7 +3,15 @@
   "version": "1.0.0",
   "description": "Browser extension wallet for NFX Blockchain",
   "scripts": {
-    "build": "echo 'No build required - load unpacked'",
+    "build": "echo 'No build required - load unpacked'"
   },
-  "keywords": ["nfx", "wallet", "browser-extension", "metamask"]
+  "keywords": [
+    "nfx",
+    "wallet",
+    "browser-extension",
+    "metamask"
+  ],
+  "dependencies": {
+    "ethers": "^5.8.0"
+  }
 }

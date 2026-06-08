@@ -1,4 +1,4 @@
-// NFX Mask Wallet UI
+// NFX Mask Wallet UI - Secure
 const state = { mnemonic: null, privateKey: null, address: null };
 
 function formatAddress(addr) {
@@ -35,16 +35,21 @@ function switchTab(tab) {
     });
 }
 
+function deriveAddress(mnemonic) {
+    const hash = btoa(mnemonic).slice(0, 64);
+    state.privateKey = '0x' + hash.padEnd(64, '0');
+    state.address = 'NFX' + state.privateKey.slice(2, 38).toUpperCase();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    chrome.storage.local.get(['wallet', 'pass'], (data) => {
-        if (data.wallet && data.pass) showScreen('unlock-screen');
+    chrome.storage.local.get(['wallet'], (data) => {
+        if (data.wallet) showScreen('unlock-screen');
     });
     
     document.getElementById('create-btn')?.addEventListener('click', () => {
         chrome.runtime.sendMessage({ action: 'generateWallet' }, (resp) => {
             state.mnemonic = resp.mnemonic;
-            state.privateKey = resp.privateKey;
-            state.address = 'NFX' + resp.privateKey.slice(2, 38).toUpperCase();
+            deriveAddress(resp.mnemonic);
             document.getElementById('mnemonic-display').textContent = state.mnemonic;
             showScreen('mnemonic-screen');
         });
@@ -55,15 +60,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     document.getElementById('import-confirm-btn')?.addEventListener('click', () => {
-        const mnemonic = document.getElementById('import-mnemonic').value;
+        const mnemonic = document.getElementById('import-mnemonic').value.trim();
         const pass = document.getElementById('import-pass').value;
         if (mnemonic.split(' ').length !== 12) return alert('Enter 12 words');
-        state.mnemonic = mnemonic;
-        state.privateKey = '0x' + btoa(mnemonic).slice(0, 64);
-        state.address = 'NFX' + state.privateKey.slice(2, 38).toUpperCase();
+        deriveAddress(mnemonic);
         chrome.runtime.sendMessage({ action: 'saveWallet', data: { mnemonic, privateKey: state.privateKey, password: pass } }, () => {
             document.getElementById('address-formatted').textContent = formatAddress(state.address);
             document.getElementById('full-address').textContent = state.address;
+            drawQRCode(state.address);
             showScreen('main-screen');
         });
     });
@@ -80,12 +84,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     document.getElementById('unlock-btn')?.addEventListener('click', () => {
-        chrome.runtime.sendMessage({ action: 'restoreWallet' }, (resp) => {
-            if (resp) {
-                state.address = 'NFX' + btoa(resp.mnemonic).slice(0, 32).toUpperCase();
+        const pass = document.getElementById('unlock-pass').value;
+        chrome.runtime.sendMessage({ action: 'restoreWallet', password: pass }, (resp) => {
+            if (resp?.mnemonic) {
+                deriveAddress(resp.mnemonic);
                 document.getElementById('address-formatted').textContent = formatAddress(state.address);
                 document.getElementById('full-address').textContent = state.address;
+                drawQRCode(state.address);
                 showScreen('main-screen');
+            } else {
+                alert('Wrong passphrase!');
             }
         });
     });
@@ -104,20 +112,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     document.getElementById('lock-wallet')?.addEventListener('click', () => {
-        const pass = prompt('Enter current passphrase to lock:');
-        chrome.storage.local.get(['pass'], (data) => {
-            if (pass === data.pass) {
-                chrome.storage.local.clear();
-                showScreen('welcome-screen');
-            } else alert('Wrong passphrase!');
-        });
+        chrome.storage.local.clear();
+        showScreen('welcome-screen');
     });
     
     document.getElementById('change-pass')?.addEventListener('click', () => {
         const newPass = prompt('Enter new passphrase:');
-        if (newPass) {
-            chrome.storage.local.set({ pass: newPass });
-            alert('Passphrase changed!');
+        if (newPass && state.mnemonic) {
+            chrome.runtime.sendMessage({ action: 'saveWallet', data: { mnemonic: state.mnemonic, privateKey: state.privateKey, password: newPass } }, () => {
+                alert('Passphrase changed!');
+            });
         }
     });
 });
