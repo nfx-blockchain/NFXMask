@@ -1,6 +1,6 @@
 // NFX Provider - injected into page context
 (function() {
-    const DEFAULT_RPC = 'http://localhost:27444';
+    const DEFAULT_RPC = 'http://194.163.175.135:27444';
     let provider;
     
     function initProvider() {
